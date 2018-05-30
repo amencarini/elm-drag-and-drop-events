@@ -2,16 +2,15 @@ module Boxes exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.App
 import DragAndDropEvents exposing (..)
 
 
 -- MAIN
 
 
-main : Program Never
+main : Program Never Model Msg
 main =
-    Html.App.program
+    Html.program
         { init = init
         , view = view
         , update = update
@@ -60,43 +59,43 @@ update msg model =
     case Debug.log "got msg" msg of
         DragStart box ->
             let
-                events' =
+                events_ =
                     ("Started dragging box " ++ box) :: model.events
 
-                model' =
-                    { model | dragged = box, events = events' }
+                model_ =
+                    { model | dragged = box, events = events_ }
             in
-                ( model', Cmd.none )
+                ( model_, Cmd.none )
 
         Drop box ->
             let
-                events' =
+                events_ =
                     ("Box " ++ model.dragged ++ " dropped on box " ++ box) :: model.events
 
-                model' =
-                    { model | dragged = "", events = events' }
+                model_ =
+                    { model | dragged = "", events = events_ }
             in
-                ( model', Cmd.none )
+                ( model_, Cmd.none )
 
         DragEnter box ->
             let
-                events' =
+                events_ =
                     ("Dragging entered box " ++ box) :: model.events
 
-                model' =
-                    { model | events = events' }
+                model_ =
+                    { model | events = events_ }
             in
-                ( model', Cmd.none )
+                ( model_, Cmd.none )
 
         DragLeave box ->
             let
-                events' =
+                events_ =
                     ("Dragging left box " ++ box) :: model.events
 
-                model' =
-                    { model | events = events' }
+                model_ =
+                    { model | events = events_ }
             in
-                ( model', Cmd.none )
+                ( model_, Cmd.none )
 
         -- This is only defined to make dropping work
         -- Logging this would be quite spammy as it registers every frame
@@ -106,13 +105,13 @@ update msg model =
 
         DragEnd box ->
             let
-                events' =
+                events_ =
                     ("Stopped dragging box " ++ box) :: model.events
 
-                model' =
-                    { model | events = events' }
+                model_ =
+                    { model | events = events_ }
             in
-                ( model', Cmd.none )
+                ( model_, Cmd.none )
 
 
 subscriptions : Model -> Sub Msg
